@@ -12,6 +12,9 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
  */
 final class EditResponse implements Response {
     public int $created;
+    /**
+     * @var array<int, EditResponseData>
+     */
     public array $data;
 
     /**

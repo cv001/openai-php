@@ -15,9 +15,12 @@ final class RetrieveResponse implements Response {
     public string $object;
     public int $created;
     public string $ownedBy;
+    /**
+     * @var array<int, RetrieveResponsePermission>
+     */
     public array $permission;
     public string $root;
-    public string $parent;
+    public ?string $parent;
 
     /**
      * @use ArrayAccessible<array{id: string, object: string, created: int, owned_by: string, permission: array<int, array{id: string, object: string, created: int, allow_create_engine: bool, allow_sampling: bool, allow_logprobs: bool, allow_search_indices: bool, allow_view: bool, allow_fine_tuning: bool, organization: string, group: ?string, is_blocking: bool}>, root: string, parent: ?string}>
@@ -34,7 +37,7 @@ final class RetrieveResponse implements Response {
         string $ownedBy,
         array $permission,
         string $root,
-        string $parent
+        ?string $parent
     ) {
         $this->id = $id;
         $this->object = $object;

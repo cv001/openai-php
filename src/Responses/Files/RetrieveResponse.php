@@ -18,7 +18,10 @@ final class RetrieveResponse implements Response {
     public string $filename;
     public string $purpose;
     public string $status;
-    public array $statusDetails;
+    /**
+     * @var array<array-key, mixed>|null
+     */
+    public ?array $statusDetails;
 
     /**
      * @use ArrayAccessible<array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>
@@ -36,7 +39,7 @@ final class RetrieveResponse implements Response {
         string $filename,
         string $purpose,
         string $status,
-        array $statusDetails
+        ?array $statusDetails
     ) {
         $this->id = $id;
         $this->object = $object;
@@ -51,7 +54,7 @@ final class RetrieveResponse implements Response {
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>}  $attributes
+     * @param  array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}  $attributes
      */
     public static function from(array $attributes): self {
         return new self(

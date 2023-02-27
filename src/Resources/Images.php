@@ -9,8 +9,7 @@ use OpenAI\Responses\Images\EditResponse;
 use OpenAI\Responses\Images\VariationResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 
-final class Images
-{
+final class Images {
     use Concerns\Transportable;
 
     /**
@@ -20,8 +19,7 @@ final class Images
      *
      * @param  array<string, mixed>  $parameters
      */
-    public function create(array $parameters): CreateResponse
-    {
+    public function create(array $parameters): CreateResponse {
         $payload = Payload::create('images/generations', $parameters);
 
         /** @var array{created: int, data: array<int, array{url?: string, b64_json?: string}>} $result */
@@ -37,8 +35,7 @@ final class Images
      *
      * @param  array<string, mixed>  $parameters
      */
-    public function edit(array $parameters): EditResponse
-    {
+    public function edit(array $parameters): EditResponse {
         $payload = Payload::upload('images/edits', $parameters);
 
         /** @var array{created: int, data: array<int, array{url?: string, b64_json?: string}>} $result */
@@ -54,8 +51,7 @@ final class Images
      *
      * @param  array<string, mixed>  $parameters
      */
-    public function variation(array $parameters): VariationResponse
-    {
+    public function variation(array $parameters): VariationResponse {
         $payload = Payload::upload('images/variations', $parameters);
 
         /** @var array{created: int, data: array<int, array{url?: string, b64_json?: string}>} $result */

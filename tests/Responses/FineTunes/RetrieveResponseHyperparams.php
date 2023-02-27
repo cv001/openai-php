@@ -21,11 +21,11 @@ test('to array', function () {
 });
 
 test('from with null values', function () {
-    $data = [
-        ...fineTuneResource()['hyperparams'],
+    $data = fineTuneResource()['hyperparams'];
+    $data = array_merge($data, [
         'batch_size' => null,
         'learning_rate_multiplier' => null,
-    ];
+    ]);
 
     $result = RetrieveResponseHyperparams::from($data);
 

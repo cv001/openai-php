@@ -13,6 +13,9 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 final class CreateResponse implements Response {
     public string $object;
     public int $created;
+    /**
+     * @var array<int, CreateResponseChoice>
+     */
     public array $choices;
     public CreateResponseUsage $usage;
 

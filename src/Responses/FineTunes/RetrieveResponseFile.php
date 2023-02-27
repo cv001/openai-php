@@ -18,6 +18,9 @@ final class RetrieveResponseFile implements Response {
     public string $filename;
     public string $purpose;
     public string $status;
+    /**
+     * @var array<array-key, mixed>|null
+     */
     public ?array $statusDetails;
 
     /**
@@ -26,7 +29,7 @@ final class RetrieveResponseFile implements Response {
     use ArrayAccessible;
 
     /**
-     * @param  array<array-key, mixed> $statusDetails
+     * @param  array<array-key, mixed>|null $statusDetails
      */
     private function __construct(
         string $id,
@@ -36,7 +39,7 @@ final class RetrieveResponseFile implements Response {
         string $filename,
         string $purpose,
         string $status,
-        array $statusDetails
+        ?array $statusDetails
     ) {
         $this->id = $id;
         $this->object = $object;

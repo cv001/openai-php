@@ -7,6 +7,7 @@ namespace OpenAI\Responses\Moderations;
 use OpenAI\Enums\Moderations\Category;
 
 final class CreateResponseResult {
+    /** @var array<string, CreateResponseCategory> */
     public array $categories;
     public bool $flagged;
 

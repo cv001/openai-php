@@ -23,12 +23,13 @@ trait ArrayAccessible {
     /**
      * {@inheritDoc}
      */
-    public function offsetGet($offset): mixed {
+    public function offsetGet($offset) {
         return $this->toArray()[$offset];
     }
 
     /**
      * {@inheritDoc}
+     * @return never
      */
     public function offsetSet($offset, $value): void {
         throw new BadMethodCallException('Cannot set response attributes.');
@@ -36,6 +37,7 @@ trait ArrayAccessible {
 
     /**
      * {@inheritDoc}
+     * @return never
      */
     public function offsetUnset($offset): void {
         throw new BadMethodCallException('Cannot unset response attributes.');

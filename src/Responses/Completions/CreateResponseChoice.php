@@ -7,17 +7,13 @@ namespace OpenAI\Responses\Completions;
 final class CreateResponseChoice {
     public string $text;
     public int $index;
-
-    /**
-     * @var CreateResponseChoiceLogprobs|null
-     */
-    public $logprobs;
-
+    public ?CreateResponseChoiceLogprobs $logprobs;
     public string $finishReason;
+
     private function __construct(
         string $text,
         int $index,
-        $logprobs,
+        ?CreateResponseChoiceLogprobs $logprobs,
         string $finishReason
     ) {
         $this->text = $text;

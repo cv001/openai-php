@@ -6,11 +6,11 @@ namespace OpenAI\Responses\Completions;
 
 final class CreateResponseUsage {
     public int $promptTokens;
-    public int $completionTokens;
+    public ?int $completionTokens;
     public int $totalTokens;
     private function __construct(
         int $promptTokens,
-        int $completionTokens,
+        ?int $completionTokens,
         int $totalTokens
     ) {
         $this->promptTokens = $promptTokens;

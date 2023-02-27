@@ -13,6 +13,9 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 final class CreateResponse implements Response {
     public string $id;
     public string $model;
+    /**
+     * @var array<int, CreateResponseResult>
+     */
     public array $results;
     /**
      * @use ArrayAccessible<array{id: string, model: string, results: array<int, array{categories: array<string, bool>, category_scores: array<string, float>, flagged: bool}>}>

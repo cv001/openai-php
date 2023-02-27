@@ -15,6 +15,9 @@ final class CreateResponse implements Response {
     public string $object;
     public int $created;
     public string $model;
+    /**
+     * @var array<int, CreateResponseChoice>
+     */
     public array $choices;
     public CreateResponseUsage $usage;
 

@@ -12,6 +12,9 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
  */
 final class ListEventsResponse implements Response {
     public string $object;
+    /**
+     * @var array<int, RetrieveResponseEvent>
+     */
     public array $data;
 
     /**

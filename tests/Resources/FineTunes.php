@@ -120,7 +120,9 @@ test('retrieve', function () {
 });
 
 test('cancel', function () {
-    $client = mockClient('POST', 'fine-tunes/ft-AF1WoRqd3aJAHsqc9NY7iL8F/cancel', [], [...fineTuneResource(), 'status' => 'cancelled']);
+    $response = fineTuneResource();
+    $response['status'] = 'cancelled';
+    $client = mockClient('POST', 'fine-tunes/ft-AF1WoRqd3aJAHsqc9NY7iL8F/cancel', [], $response);
 
     $result = $client->fineTunes()->cancel('ft-AF1WoRqd3aJAHsqc9NY7iL8F');
 

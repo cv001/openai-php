@@ -18,7 +18,10 @@ final class CreateResponse implements Response {
     public string $filename;
     public string $purpose;
     public string $status;
-    public array $statusDetails;
+    /**
+     * @var array<array-key, mixed>|null
+     */
+    public ?array $statusDetails;
 
     /**
      * @use ArrayAccessible<array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>
@@ -26,7 +29,7 @@ final class CreateResponse implements Response {
     use ArrayAccessible;
 
     /**
-     * @param  array<array-key, mixed> $statusDetails
+     * @param  array<array-key, mixed>|null  $statusDetails
      */
     private function __construct(
         string $id,
@@ -36,7 +39,7 @@ final class CreateResponse implements Response {
         string $filename,
         string $purpose,
         string $status,
-        array $statusDetails
+        ?array $statusDetails
     ) {
         $this->id = $id;
         $this->object = $object;
@@ -62,7 +65,7 @@ final class CreateResponse implements Response {
             $attributes['filename'],
             $attributes['purpose'],
             $attributes['status'],
-            $attributes['status_details'] ?? [],
+            $attributes['status_details'],
         );
     }
 

@@ -12,6 +12,9 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
  */
 final class VariationResponse implements Response {
     public int $created;
+    /**
+     * @var array<int, VariationResponseData>
+     */
     public array $data;
     /**
      * @use ArrayAccessible<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}>

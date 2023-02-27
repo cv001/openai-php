@@ -9,8 +9,7 @@ use OpenAI\Responses\FineTunes\ListResponse;
 use OpenAI\Responses\FineTunes\RetrieveResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
 
-final class FineTunes
-{
+final class FineTunes {
     use Concerns\Transportable;
 
     /**
@@ -22,8 +21,7 @@ final class FineTunes
      *
      * @param  array<string, mixed>  $parameters
      */
-    public function create(array $parameters): RetrieveResponse
-    {
+    public function create(array $parameters): RetrieveResponse {
         $payload = Payload::create('fine-tunes', $parameters);
 
         /** @var array{id: string, object: string, model: string, created_at: int, events: array<int, array{object: string, created_at: int, level: string, message: string}>, fine_tuned_model: ?string, hyperparams: array{batch_size: ?int, learning_rate_multiplier: ?float, n_epochs: int, prompt_loss_weight: float}, organization_id: string, result_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>, status: string, validation_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>, training_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>, updated_at: int}  $result */
@@ -37,8 +35,7 @@ final class FineTunes
      *
      * @see https://beta.openai.com/docs/api-reference/fine-tunes/list
      */
-    public function list(): ListResponse
-    {
+    public function list(): ListResponse {
         $payload = Payload::list('fine-tunes');
 
         /** @var array{object: string, data: array<int, array{id: string, object: string, model: string, created_at: int, events: array<int, array{object: string, created_at: int, level: string, message: string}>, fine_tuned_model: ?string, hyperparams: array{batch_size: ?int, learning_rate_multiplier: ?float, n_epochs: int, prompt_loss_weight: float}, organization_id: string, result_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>, status: string, validation_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>, training_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>, updated_at: int}>} $result */
@@ -52,8 +49,7 @@ final class FineTunes
      *
      * @see https://beta.openai.com/docs/api-reference/fine-tunes/list
      */
-    public function retrieve(string $fineTuneId): RetrieveResponse
-    {
+    public function retrieve(string $fineTuneId): RetrieveResponse {
         $payload = Payload::retrieve('fine-tunes', $fineTuneId);
 
         /** @var array{id: string, object: string, model: string, created_at: int, events: array<int, array{object: string, created_at: int, level: string, message: string}>, fine_tuned_model: ?string, hyperparams: array{batch_size: ?int, learning_rate_multiplier: ?float, n_epochs: int, prompt_loss_weight: float}, organization_id: string, result_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>, status: string, validation_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>, training_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>, updated_at: int}  $result */
@@ -67,8 +63,7 @@ final class FineTunes
      *
      * @see https://beta.openai.com/docs/api-reference/fine-tunes/cancel
      */
-    public function cancel(string $fineTuneId): RetrieveResponse
-    {
+    public function cancel(string $fineTuneId): RetrieveResponse {
         $payload = Payload::cancel('fine-tunes', $fineTuneId);
 
         /** @var array{id: string, object: string, model: string, created_at: int, events: array<int, array{object: string, created_at: int, level: string, message: string}>, fine_tuned_model: ?string, hyperparams: array{batch_size: ?int, learning_rate_multiplier: ?float, n_epochs: int, prompt_loss_weight: float}, organization_id: string, result_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>, status: string, validation_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>, training_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>, updated_at: int}  $result */
@@ -82,8 +77,7 @@ final class FineTunes
      *
      * @see https://beta.openai.com/docs/api-reference/fine-tunes/events
      */
-    public function listEvents(string $fineTuneId): ListEventsResponse
-    {
+    public function listEvents(string $fineTuneId): ListEventsResponse {
         $payload = Payload::retrieve('fine-tunes', $fineTuneId, '/events');
 
         /** @var array{object: string, data: array<int, array{object: string, created_at: int, level: string, message: string}>} $result */

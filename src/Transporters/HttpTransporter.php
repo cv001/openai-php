@@ -18,8 +18,7 @@ use Psr\Http\Client\ClientInterface;
 /**
  * @internal
  */
-final class HttpTransporter implements Transporter
-{
+final class HttpTransporter implements Transporter {
     private ClientInterface $client;
     private BaseUri $baseUri;
     private Headers $headers;
@@ -40,8 +39,7 @@ final class HttpTransporter implements Transporter
     /**
      * {@inheritDoc}
      */
-    public function requestObject(Payload $payload): array
-    {
+    public function requestObject(Payload $payload): array {
         $request = $payload->toRequest($this->baseUri, $this->headers);
 
         try {
@@ -69,8 +67,7 @@ final class HttpTransporter implements Transporter
     /**
      * {@inheritDoc}
      */
-    public function requestContent(Payload $payload): string
-    {
+    public function requestContent(Payload $payload): string {
         $request = $payload->toRequest($this->baseUri, $this->headers);
 
         try {
@@ -88,7 +85,7 @@ final class HttpTransporter implements Transporter
             if (isset($response['error'])) {
                 throw new ErrorException($response['error']);
             }
-        } catch (JsonException) {
+        } catch (JsonException $e) {
             // ..
         }
 

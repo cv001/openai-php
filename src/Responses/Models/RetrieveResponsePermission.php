@@ -15,7 +15,7 @@ final class RetrieveResponsePermission {
     public bool $allowView;
     public bool $allowFineTuning;
     public string $organization;
-    public string $group;
+    public ?string $group;
     public bool $isBlocking;
 
     private function __construct(
@@ -29,7 +29,7 @@ final class RetrieveResponsePermission {
         bool $allowView,
         bool $allowFineTuning,
         string $organization,
-        string $group,
+        ?string $group,
         bool $isBlocking
     ) {
         $this->id = $id;

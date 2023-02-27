@@ -12,6 +12,9 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
  */
 final class CreateResponse implements Response {
     public string $object;
+    /**
+     * @var array<int, CreateResponseEmbedding>
+     */
     public array $embeddings;
     public CreateResponseUsage $usage;
 

@@ -7,6 +7,9 @@ namespace OpenAI\Responses\Embeddings;
 final class CreateResponseEmbedding {
     public string $object;
     public int $index;
+    /**
+     * @var array<int, float>
+     */
     public array $embedding;
 
     /**

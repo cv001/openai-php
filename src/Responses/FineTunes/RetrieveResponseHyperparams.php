@@ -11,8 +11,8 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
  * @implements Response<array{batch_size: ?int, learning_rate_multiplier: ?float, n_epochs: int, prompt_loss_weight: float}>
  */
 final class RetrieveResponseHyperparams implements Response {
-    public int $batchSize;
-    public float $learningRateMultiplier;
+    public ?int $batchSize;
+    public ?float $learningRateMultiplier;
     public int $nEpochs;
     public float $promptLossWeight;
 
@@ -22,8 +22,8 @@ final class RetrieveResponseHyperparams implements Response {
     use ArrayAccessible;
 
     private function __construct(
-        int $batchSize,
-        float $learningRateMultiplier,
+        ?int $batchSize,
+        ?float $learningRateMultiplier,
         int $nEpochs,
         float $promptLossWeight
     ) {

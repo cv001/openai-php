@@ -18,6 +18,10 @@ final class Payload {
     private string $contentType;
     private string $method;
     private ResourceUri $uri;
+
+    /**
+     * @var array<string, mixed>
+     */
     private array $parameters;
 
     /**

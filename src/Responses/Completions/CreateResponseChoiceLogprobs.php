@@ -5,20 +5,32 @@ declare(strict_types=1);
 namespace OpenAI\Responses\Completions;
 
 final class CreateResponseChoiceLogprobs {
+    /**
+     * @var array<int, string>
+     */
     public array $tokens;
+    /**
+     * @var array<int, float>
+     */
     public array $tokenLogprobs;
-    public array $topLogprobs;
+    /**
+     * @var array<int, string>|null
+     */
+    public ?array $topLogprobs;
+    /**
+     * @var array<int, int>
+     */
     public array $textOffset;
     /**
      * @param  array<int, string>  $tokens
      * @param  array<int, float>  $tokenLogprobs
-     * @param  array<int, string>  $topLogprobs
+     * @param  array<int, string>|null  $topLogprobs
      * @param  array<int, int>  $textOffset
      */
     private function __construct(
         array $tokens,
         array $tokenLogprobs,
-        array $topLogprobs,
+        ?array $topLogprobs,
         array $textOffset
     ) {
         $this->tokens = $tokens;
@@ -28,7 +40,7 @@ final class CreateResponseChoiceLogprobs {
     }
 
     /**
-     * @param  array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>, text_offset: array<int, int>}  $attributes
+     * @param  array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}  $attributes
      */
     public static function from(array $attributes): self {
         return new self(
@@ -40,7 +52,7 @@ final class CreateResponseChoiceLogprobs {
     }
 
     /**
-     * @return array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>, text_offset: array<int, int>}
+     * @return array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}
      */
     public function toArray(): array {
         return [

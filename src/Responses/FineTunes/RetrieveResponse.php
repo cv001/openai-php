@@ -15,13 +15,25 @@ final class RetrieveResponse implements Response {
     public string $object;
     public string $model;
     public int $createdAt;
+    /**
+     * @var array<int, RetrieveResponseEvent>
+     */
     public array $events;
-    public string $fineTunedModel;
+    public ?string $fineTunedModel;
     public RetrieveResponseHyperparams $hyperparams;
     public string $organizationId;
+    /**
+     * @var array<int, RetrieveResponseFile>
+     */
     public array $resultFiles;
     public string $status;
+    /**
+     * @var array<int, RetrieveResponseFile>
+     */
     public array $validationFiles;
+    /**
+     * @var array<int, RetrieveResponseFile>
+     */
     public array $trainingFiles;
     public int $updatedAt;
 
@@ -42,7 +54,7 @@ final class RetrieveResponse implements Response {
         string $model,
         int $createdAt,
         array $events,
-        string $fineTunedModel,
+        ?string $fineTunedModel,
         RetrieveResponseHyperparams $hyperparams,
         string $organizationId,
         array $resultFiles,

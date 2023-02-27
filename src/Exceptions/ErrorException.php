@@ -7,6 +7,9 @@ namespace OpenAI\Exceptions;
 use Exception;
 
 final class ErrorException extends Exception {
+    /**
+     * @var array{message: string, type: string, code: string}
+     */
     private array $contents;
 
     /**
