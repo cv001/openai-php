@@ -20,7 +20,7 @@ final class CreateResponse implements Response {
     public CreateResponseUsage $usage;
 
     /**
-     * @use ArrayAccessible<array{id: string, object: string, created: int, model: string, choices: array<int, array{text: string, index: int, logprobs: int|null, finish_reason: string}>, usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int}}>
+     * @use ArrayAccessible<array{id: string, object: string, created: int, model: string, choices: array<int, array{text: string, index: int, logprobs: int|null, finish_reason: ?string}>, usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int}}>
      */
     use ArrayAccessible;
 

@@ -8,13 +8,13 @@ final class CreateResponseChoice {
     public string $text;
     public int $index;
     public ?CreateResponseChoiceLogprobs $logprobs;
-    public string $finishReason;
+    public ?string $finishReason;
 
     private function __construct(
         string $text,
         int $index,
         ?CreateResponseChoiceLogprobs $logprobs,
-        string $finishReason
+        ?string $finishReason
     ) {
         $this->text = $text;
         $this->index = $index;
@@ -23,7 +23,7 @@ final class CreateResponseChoice {
     }
 
     /**
-     * @param  array{text: string, index: int, logprobs: array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}|null, finish_reason: string}  $attributes
+     * @param  array{text: string, index: int, logprobs: array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}|null, finish_reason: ?string}  $attributes
      */
     public static function from(array $attributes): self {
         return new self(
@@ -35,7 +35,7 @@ final class CreateResponseChoice {
     }
 
     /**
-     * @return array{text: string, index: int, logprobs: array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}|null, finish_reason: string}
+     * @return array{text: string, index: int, logprobs: array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}|null, finish_reason: ?string}
      */
     public function toArray(): array {
         return [
