@@ -10,19 +10,27 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 /**
  * @implements Response<array{object: string, created_at: int, level: string, message: string}>
  */
-final class RetrieveResponseEvent implements Response
-{
+final class RetrieveResponseEvent implements Response {
+    public string $object;
+    public int $createdAt;
+    public string $level;
+    public string $message;
+
     /**
      * @use ArrayAccessible<array{object: string, created_at: int, level: string, message: string}>
      */
     use ArrayAccessible;
 
     private function __construct(
-        public readonly string $object,
-        public readonly int $createdAt,
-        public readonly string $level,
-        public readonly string $message,
+        string $object,
+        int $createdAt,
+        string $level,
+        string $message
     ) {
+        $this->object = $object;
+        $this->createdAt = $createdAt;
+        $this->level = $level;
+        $this->message = $message;
     }
 
     /**
@@ -30,8 +38,7 @@ final class RetrieveResponseEvent implements Response
      *
      * @param  array{object: string, created_at: int, level: string, message: string}  $attributes
      */
-    public static function from(array $attributes): self
-    {
+    public static function from(array $attributes): self {
         return new self(
             $attributes['object'],
             $attributes['created_at'],
@@ -43,8 +50,7 @@ final class RetrieveResponseEvent implements Response
     /**
      * {@inheritDoc}
      */
-    public function toArray(): array
-    {
+    public function toArray(): array {
         return [
             'object' => $this->object,
             'created_at' => $this->createdAt,

@@ -4,27 +4,33 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\Completions;
 
-final class CreateResponseChoiceLogprobs
-{
+final class CreateResponseChoiceLogprobs {
+    public array $tokens;
+    public array $tokenLogprobs;
+    public array $topLogprobs;
+    public array $textOffset;
     /**
      * @param  array<int, string>  $tokens
      * @param  array<int, float>  $tokenLogprobs
-     * @param  array<int, string>|null  $topLogprobs
+     * @param  array<int, string>  $topLogprobs
      * @param  array<int, int>  $textOffset
      */
     private function __construct(
-        public readonly array $tokens,
-        public readonly array $tokenLogprobs,
-        public readonly ?array $topLogprobs,
-        public readonly array $textOffset,
+        array $tokens,
+        array $tokenLogprobs,
+        array $topLogprobs,
+        array $textOffset
     ) {
+        $this->tokens = $tokens;
+        $this->tokenLogprobs = $tokenLogprobs;
+        $this->topLogprobs = $topLogprobs;
+        $this->textOffset = $textOffset;
     }
 
     /**
-     * @param  array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}  $attributes
+     * @param  array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>, text_offset: array<int, int>}  $attributes
      */
-    public static function from(array $attributes): self
-    {
+    public static function from(array $attributes): self {
         return new self(
             $attributes['tokens'],
             $attributes['token_logprobs'],
@@ -34,10 +40,9 @@ final class CreateResponseChoiceLogprobs
     }
 
     /**
-     * @return array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}
+     * @return array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>, text_offset: array<int, int>}
      */
-    public function toArray(): array
-    {
+    public function toArray(): array {
         return [
             'tokens' => $this->tokens,
             'token_logprobs' => $this->tokenLogprobs,

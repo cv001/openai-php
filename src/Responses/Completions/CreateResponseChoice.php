@@ -4,21 +4,32 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\Completions;
 
-final class CreateResponseChoice
-{
+final class CreateResponseChoice {
+    public string $text;
+    public int $index;
+
+    /**
+     * @var CreateResponseChoiceLogprobs|null
+     */
+    public $logprobs;
+
+    public string $finishReason;
     private function __construct(
-        public readonly string $text,
-        public readonly int $index,
-        public readonly ?CreateResponseChoiceLogprobs $logprobs,
-        public readonly string $finishReason,
+        string $text,
+        int $index,
+        $logprobs,
+        string $finishReason
     ) {
+        $this->text = $text;
+        $this->index = $index;
+        $this->logprobs = $logprobs;
+        $this->finishReason = $finishReason;
     }
 
     /**
      * @param  array{text: string, index: int, logprobs: array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}|null, finish_reason: string}  $attributes
      */
-    public static function from(array $attributes): self
-    {
+    public static function from(array $attributes): self {
         return new self(
             $attributes['text'],
             $attributes['index'],
@@ -30,8 +41,7 @@ final class CreateResponseChoice
     /**
      * @return array{text: string, index: int, logprobs: array{tokens: array<int, string>, token_logprobs: array<int, float>, top_logprobs: array<int, string>|null, text_offset: array<int, int>}|null, finish_reason: string}
      */
-    public function toArray(): array
-    {
+    public function toArray(): array {
         return [
             'text' => $this->text,
             'index' => $this->index,

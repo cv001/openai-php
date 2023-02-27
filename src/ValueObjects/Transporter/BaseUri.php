@@ -11,12 +11,13 @@ use OpenAI\Contracts\Stringable;
  */
 final class BaseUri implements Stringable
 {
+    private string $baseUri;
     /**
      * Creates a new Base URI value object.
      */
-    private function __construct(private readonly string $baseUri)
+    private function __construct(string $baseUri)
     {
-        // ..
+        $this->baseUri = $baseUri;
     }
 
     /**

@@ -14,14 +14,14 @@ use OpenAI\Resources\Images;
 use OpenAI\Resources\Models;
 use OpenAI\Resources\Moderations;
 
-final class Client
-{
+final class Client {
+    private Transporter $transporter;
+
     /**
      * Creates a Client instance with the given API token.
      */
-    public function __construct(private readonly Transporter $transporter)
-    {
-        // ..
+    public function __construct(Transporter $transporter) {
+        $this->transporter = $transporter;
     }
 
     /**
@@ -30,8 +30,7 @@ final class Client
      *
      * @see https://beta.openai.com/docs/api-reference/completions
      */
-    public function completions(): Completions
-    {
+    public function completions(): Completions {
         return new Completions($this->transporter);
     }
 
@@ -40,8 +39,7 @@ final class Client
      *
      * @see https://beta.openai.com/docs/api-reference/embeddings
      */
-    public function embeddings(): Embeddings
-    {
+    public function embeddings(): Embeddings {
         return new Embeddings($this->transporter);
     }
 
@@ -50,8 +48,7 @@ final class Client
      *
      * @see https://beta.openai.com/docs/api-reference/edits
      */
-    public function edits(): Edits
-    {
+    public function edits(): Edits {
         return new Edits($this->transporter);
     }
 
@@ -60,8 +57,7 @@ final class Client
      *
      * @see https://beta.openai.com/docs/api-reference/files
      */
-    public function files(): Files
-    {
+    public function files(): Files {
         return new Files($this->transporter);
     }
 
@@ -70,8 +66,7 @@ final class Client
      *
      * @see https://beta.openai.com/docs/api-reference/models
      */
-    public function models(): Models
-    {
+    public function models(): Models {
         return new Models($this->transporter);
     }
 
@@ -80,8 +75,7 @@ final class Client
      *
      * @see https://beta.openai.com/docs/api-reference/fine-tunes
      */
-    public function fineTunes(): FineTunes
-    {
+    public function fineTunes(): FineTunes {
         return new FineTunes($this->transporter);
     }
 
@@ -90,8 +84,7 @@ final class Client
      *
      * @see https://beta.openai.com/docs/api-reference/moderations
      */
-    public function moderations(): Moderations
-    {
+    public function moderations(): Moderations {
         return new Moderations($this->transporter);
     }
 
@@ -100,8 +93,7 @@ final class Client
      *
      * @see https://beta.openai.com/docs/api-reference/images
      */
-    public function images(): Images
-    {
+    public function images(): Images {
         return new Images($this->transporter);
     }
 }

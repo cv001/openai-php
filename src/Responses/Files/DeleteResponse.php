@@ -10,18 +10,24 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 /**
  * @implements Response<array{id: string, object: string, deleted: bool}>
  */
-final class DeleteResponse implements Response
-{
+final class DeleteResponse implements Response {
+    public string $id;
+    public string $object;
+    public bool $deleted;
+
     /**
      * @use ArrayAccessible<array{id: string, object: string, deleted: bool}>
      */
     use ArrayAccessible;
 
     private function __construct(
-        public readonly string $id,
-        public readonly string $object,
-        public readonly bool $deleted,
+        string $id,
+        string $object,
+        bool $deleted
     ) {
+        $this->id = $id;
+        $this->object = $object;
+        $this->deleted = $deleted;
     }
 
     /**
@@ -29,8 +35,7 @@ final class DeleteResponse implements Response
      *
      * @param  array{id: string, object: string, deleted: bool}  $attributes
      */
-    public static function from(array $attributes): self
-    {
+    public static function from(array $attributes): self {
         return new self(
             $attributes['id'],
             $attributes['object'],
@@ -41,8 +46,7 @@ final class DeleteResponse implements Response
     /**
      * {@inheritDoc}
      */
-    public function toArray(): array
-    {
+    public function toArray(): array {
         return [
             'id' => $this->id,
             'object' => $this->object,

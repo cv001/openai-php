@@ -12,37 +12,32 @@ use OpenAI\Contracts\Response;
  *
  * @mixin Response<TArray>
  */
-trait ArrayAccessible
-{
+trait ArrayAccessible {
     /**
      * {@inheritDoc}
      */
-    public function offsetExists(mixed $offset): bool
-    {
+    public function offsetExists($offset): bool {
         return array_key_exists($offset, $this->toArray());
     }
 
     /**
      * {@inheritDoc}
      */
-    public function offsetGet(mixed $offset): mixed
-    {
+    public function offsetGet($offset): mixed {
         return $this->toArray()[$offset];
     }
 
     /**
      * {@inheritDoc}
      */
-    public function offsetSet(mixed $offset, mixed $value): never
-    {
+    public function offsetSet($offset, $value): void {
         throw new BadMethodCallException('Cannot set response attributes.');
     }
 
     /**
      * {@inheritDoc}
      */
-    public function offsetUnset(mixed $offset): never
-    {
+    public function offsetUnset($offset): void {
         throw new BadMethodCallException('Cannot unset response attributes.');
     }
 }

@@ -9,26 +9,24 @@ use OpenAI\Contracts\Stringable;
 /**
  * @internal
  */
-final class ApiKey implements Stringable
-{
+final class ApiKey implements Stringable {
+    public string $apiKey;
+
     /**
      * Creates a new API token value object.
      */
-    private function __construct(public readonly string $apiKey)
-    {
-        // ..
+    private function __construct(string $apiKey) {
+        $this->apiKey = $apiKey;
     }
 
-    public static function from(string $apiKey): self
-    {
+    public static function from(string $apiKey): self {
         return new self($apiKey);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function toString(): string
-    {
+    public function toString(): string {
         return $this->apiKey;
     }
 }

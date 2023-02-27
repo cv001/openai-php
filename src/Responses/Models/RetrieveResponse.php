@@ -10,8 +10,15 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 /**
  * @implements Response<array{id: string, object: string, created: int, owned_by: string, permission: array<int, array{id: string, object: string, created: int, allow_create_engine: bool, allow_sampling: bool, allow_logprobs: bool, allow_search_indices: bool, allow_view: bool, allow_fine_tuning: bool, organization: string, group: ?string, is_blocking: bool}>, root: string, parent: ?string}>
  */
-final class RetrieveResponse implements Response
-{
+final class RetrieveResponse implements Response {
+    public string $id;
+    public string $object;
+    public int $created;
+    public string $ownedBy;
+    public array $permission;
+    public string $root;
+    public string $parent;
+
     /**
      * @use ArrayAccessible<array{id: string, object: string, created: int, owned_by: string, permission: array<int, array{id: string, object: string, created: int, allow_create_engine: bool, allow_sampling: bool, allow_logprobs: bool, allow_search_indices: bool, allow_view: bool, allow_fine_tuning: bool, organization: string, group: ?string, is_blocking: bool}>, root: string, parent: ?string}>
      */
@@ -21,14 +28,21 @@ final class RetrieveResponse implements Response
      * @param  array<int, RetrieveResponsePermission>  $permission
      */
     private function __construct(
-        public readonly string $id,
-        public readonly string $object,
-        public readonly int $created,
-        public readonly string $ownedBy,
-        public readonly array $permission,
-        public readonly string $root,
-        public readonly ?string $parent,
+        string $id,
+        string $object,
+        int $created,
+        string $ownedBy,
+        array $permission,
+        string $root,
+        string $parent
     ) {
+        $this->id = $id;
+        $this->object = $object;
+        $this->created = $created;
+        $this->ownedBy = $ownedBy;
+        $this->permission = $permission;
+        $this->root = $root;
+        $this->parent = $parent;
     }
 
     /**
@@ -36,8 +50,7 @@ final class RetrieveResponse implements Response
      *
      * @param  array{id: string, object: string, created: int, owned_by: string, permission: array<int, array{id: string, object: string, created: int, allow_create_engine: bool, allow_sampling: bool, allow_logprobs: bool, allow_search_indices: bool, allow_view: bool, allow_fine_tuning: bool, organization: string, group: ?string, is_blocking: bool}>, root: string, parent: ?string}  $attributes
      */
-    public static function from(array $attributes): self
-    {
+    public static function from(array $attributes): self {
         $permission = array_map(fn (array $result): RetrieveResponsePermission => RetrieveResponsePermission::from(
             $result
         ), $attributes['permission']);
@@ -56,8 +69,7 @@ final class RetrieveResponse implements Response
     /**
      * {@inheritDoc}
      */
-    public function toArray(): array
-    {
+    public function toArray(): array {
         return [
             'id' => $this->id,
             'object' => $this->object,

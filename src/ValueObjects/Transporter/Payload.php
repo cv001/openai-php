@@ -14,27 +14,33 @@ use OpenAI\ValueObjects\ResourceUri;
 /**
  * @internal
  */
-final class Payload
-{
+final class Payload {
+    private string $contentType;
+    private string $method;
+    private ResourceUri $uri;
+    private array $parameters;
+
     /**
      * Creates a new Request value object.
      *
      * @param  array<string, mixed>  $parameters
      */
     private function __construct(
-        private readonly ContentType $contentType,
-        private readonly Method $method,
-        private readonly ResourceUri $uri,
-        private readonly array $parameters = [],
+        string $contentType,
+        string $method,
+        ResourceUri $uri,
+        array $parameters = []
     ) {
-        // ..
+        $this->contentType = $contentType;
+        $this->method = $method;
+        $this->uri = $uri;
+        $this->parameters = $parameters;
     }
 
     /**
      * Creates a new Payload value object from the given parameters.
      */
-    public static function list(string $resource): self
-    {
+    public static function list(string $resource): self {
         $contentType = ContentType::JSON;
         $method = Method::GET;
         $uri = ResourceUri::list($resource);
@@ -45,8 +51,7 @@ final class Payload
     /**
      * Creates a new Payload value object from the given parameters.
      */
-    public static function retrieve(string $resource, string $id, string $suffix = ''): self
-    {
+    public static function retrieve(string $resource, string $id, string $suffix = ''): self {
         $contentType = ContentType::JSON;
         $method = Method::GET;
         $uri = ResourceUri::retrieve($resource, $id, $suffix);
@@ -57,8 +62,7 @@ final class Payload
     /**
      * Creates a new Payload value object from the given parameters.
      */
-    public static function retrieveContent(string $resource, string $id): self
-    {
+    public static function retrieveContent(string $resource, string $id): self {
         $contentType = ContentType::JSON;
         $method = Method::GET;
         $uri = ResourceUri::retrieveContent($resource, $id);
@@ -71,8 +75,7 @@ final class Payload
      *
      * @param  array<string, mixed>  $parameters
      */
-    public static function create(string $resource, array $parameters): self
-    {
+    public static function create(string $resource, array $parameters): self {
         $contentType = ContentType::JSON;
         $method = Method::POST;
         $uri = ResourceUri::create($resource);
@@ -85,8 +88,7 @@ final class Payload
      *
      * @param  array<string, mixed>  $parameters
      */
-    public static function upload(string $resource, array $parameters): self
-    {
+    public static function upload(string $resource, array $parameters): self {
         $contentType = ContentType::MULTIPART;
         $method = Method::POST;
         $uri = ResourceUri::upload($resource);
@@ -97,8 +99,7 @@ final class Payload
     /**
      * Creates a new Payload value object from the given parameters.
      */
-    public static function cancel(string $resource, string $id): self
-    {
+    public static function cancel(string $resource, string $id): self {
         $contentType = ContentType::JSON;
         $method = Method::POST;
         $uri = ResourceUri::cancel($resource, $id);
@@ -109,8 +110,7 @@ final class Payload
     /**
      * Creates a new Payload value object from the given parameters.
      */
-    public static function delete(string $resource, string $id): self
-    {
+    public static function delete(string $resource, string $id): self {
         $contentType = ContentType::JSON;
         $method = Method::DELETE;
         $uri = ResourceUri::delete($resource, $id);
@@ -121,10 +121,9 @@ final class Payload
     /**
      * Creates a new Psr 7 Request instance.
      */
-    public function toRequest(BaseUri $baseUri, Headers $headers): Psr7Request
-    {
+    public function toRequest(BaseUri $baseUri, Headers $headers): Psr7Request {
         $body = null;
-        $uri = $baseUri->toString().$this->uri->toString();
+        $uri = $baseUri->toString() . $this->uri->toString();
 
         $headers = $headers->withContentType($this->contentType);
 
@@ -134,12 +133,12 @@ final class Payload
                     array_map(fn ($key): array => ['name' => $key, 'contents' => $this->parameters[$key]], array_keys($this->parameters))
                 );
 
-                $headers = $headers->withContentType($this->contentType, '; boundary='.$body->getBoundary());
+                $headers = $headers->withContentType($this->contentType, '; boundary=' . $body->getBoundary());
             } else {
                 $body = json_encode($this->parameters, JSON_THROW_ON_ERROR);
             }
         }
 
-        return new Psr7Request($this->method->value, $uri, $headers->toArray(), $body);
+        return new Psr7Request($this->method, $uri, $headers->toArray(), $body);
     }
 }

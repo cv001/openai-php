@@ -5,7 +5,7 @@ use OpenAI\Responses\Moderations\CreateResponseCategory;
 
 test('from', function () {
     $category = CreateResponseCategory::from([
-        'category' => Category::Hate->value,
+        'category' => Category::Hate,
         'violated' => true,
         'score' => 0.1234,
     ]);

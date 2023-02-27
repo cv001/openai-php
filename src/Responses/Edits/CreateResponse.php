@@ -10,8 +10,12 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 /**
  * @implements Response<array{object: string, created: int, choices: array<int, array{text: string, index: int}>, usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int}}>
  */
-final class CreateResponse implements Response
-{
+final class CreateResponse implements Response {
+    public string $object;
+    public int $created;
+    public array $choices;
+    public CreateResponseUsage $usage;
+
     /**
      * @use ArrayAccessible<array{id: string, object: string, created: int, model: string, choices: array<int, array{text: string, index: int, logprobs: int|null, finish_reason: string}>, usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int}}>
      */
@@ -21,11 +25,15 @@ final class CreateResponse implements Response
      * @param  array<int, CreateResponseChoice>  $choices
      */
     private function __construct(
-        public readonly string $object,
-        public readonly int $created,
-        public readonly array $choices,
-        public readonly CreateResponseUsage $usage,
+        string $object,
+        int $created,
+        array $choices,
+        CreateResponseUsage $usage
     ) {
+        $this->object = $object;
+        $this->created = $created;
+        $this->choices = $choices;
+        $this->usage = $usage;
     }
 
     /**
@@ -33,8 +41,7 @@ final class CreateResponse implements Response
      *
      * @param  array{object: string, created: int, choices: array<int, array{text: string, index: int}>, usage: array{prompt_tokens: int, completion_tokens: int, total_tokens: int}}  $attributes
      */
-    public static function from(array $attributes): self
-    {
+    public static function from(array $attributes): self {
         $choices = array_map(fn (array $result): CreateResponseChoice => CreateResponseChoice::from(
             $result
         ), $attributes['choices']);
@@ -50,8 +57,7 @@ final class CreateResponse implements Response
     /**
      * {@inheritDoc}
      */
-    public function toArray(): array
-    {
+    public function toArray(): array {
         return [
             'object' => $this->object,
             'created' => $this->created,

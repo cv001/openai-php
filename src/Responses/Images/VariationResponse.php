@@ -10,8 +10,9 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 /**
  * @implements Response<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}>
  */
-final class VariationResponse implements Response
-{
+final class VariationResponse implements Response {
+    public int $created;
+    public array $data;
     /**
      * @use ArrayAccessible<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}>
      */
@@ -21,9 +22,11 @@ final class VariationResponse implements Response
      * @param  array<int, VariationResponseData>  $data
      */
     private function __construct(
-        public readonly int $created,
-        public readonly array $data,
+        int $created,
+        array $data
     ) {
+        $this->created = $created;
+        $this->data = $data;
     }
 
     /**
@@ -31,8 +34,7 @@ final class VariationResponse implements Response
      *
      * @param  array{created: int, data: array<int, array{url?: string, b64_json?: string}>}  $attributes
      */
-    public static function from(array $attributes): self
-    {
+    public static function from(array $attributes): self {
         $results = array_map(fn (array $result): VariationResponseData => VariationResponseData::from(
             $result
         ), $attributes['data']);
@@ -46,8 +48,7 @@ final class VariationResponse implements Response
     /**
      * {@inheritDoc}
      */
-    public function toArray(): array
-    {
+    public function toArray(): array {
         return [
             'created' => $this->created,
             'data' => array_map(

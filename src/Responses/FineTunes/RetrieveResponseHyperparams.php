@@ -10,19 +10,27 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 /**
  * @implements Response<array{batch_size: ?int, learning_rate_multiplier: ?float, n_epochs: int, prompt_loss_weight: float}>
  */
-final class RetrieveResponseHyperparams implements Response
-{
+final class RetrieveResponseHyperparams implements Response {
+    public int $batchSize;
+    public float $learningRateMultiplier;
+    public int $nEpochs;
+    public float $promptLossWeight;
+
     /**
      * @use ArrayAccessible<array{batch_size: ?int, learning_rate_multiplier: ?float, n_epochs: int, prompt_loss_weight: float}>
      */
     use ArrayAccessible;
 
     private function __construct(
-        public readonly ?int $batchSize,
-        public readonly ?float $learningRateMultiplier,
-        public readonly int $nEpochs,
-        public readonly float $promptLossWeight,
+        int $batchSize,
+        float $learningRateMultiplier,
+        int $nEpochs,
+        float $promptLossWeight
     ) {
+        $this->batchSize = $batchSize;
+        $this->learningRateMultiplier = $learningRateMultiplier;
+        $this->nEpochs = $nEpochs;
+        $this->promptLossWeight = $promptLossWeight;
     }
 
     /**
@@ -30,8 +38,7 @@ final class RetrieveResponseHyperparams implements Response
      *
      * @param  array{batch_size: ?int, learning_rate_multiplier: ?float, n_epochs: int, prompt_loss_weight: float}  $attributes
      */
-    public static function from(array $attributes): self
-    {
+    public static function from(array $attributes): self {
         return new self(
             $attributes['batch_size'],
             $attributes['learning_rate_multiplier'],
@@ -43,8 +50,7 @@ final class RetrieveResponseHyperparams implements Response
     /**
      * {@inheritDoc}
      */
-    public function toArray(): array
-    {
+    public function toArray(): array {
         return [
             'batch_size' => $this->batchSize,
             'learning_rate_multiplier' => $this->learningRateMultiplier,

@@ -1,5 +1,4 @@
 <p align="center">
-    <img src="https://raw.githubusercontent.com/openai-php/client/main/art/example.png" width="600" alt="OpenAI PHP">
     <p align="center">
         <a href="https://github.com/openai-php/client/actions"><img alt="GitHub Workflow Status (main)" src="https://img.shields.io/github/actions/workflow/status/openai-php/client/tests.yml?branch=main&label=tests&style=round-square"></a>
         <a href="https://packagist.org/packages/openai-php/client"><img alt="Total Downloads" src="https://img.shields.io/packagist/dt/openai-php/client"></a>
@@ -415,7 +414,7 @@ foreach ($response->results as $result) {
     $result->flagged; // true
 
     foreach ($result->categories as $category) {
-        $category->category->value; // 'violence'
+        $category->category; // 'violence'
         $category->violated; // true
         $category->score; // 0.97431367635727
     }

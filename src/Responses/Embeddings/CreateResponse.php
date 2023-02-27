@@ -10,8 +10,11 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 /**
  * @implements Response<array{object: string, data: array<int, array{object: string, embedding: array<int, float>, index: int}>, usage: array{prompt_tokens: int, total_tokens: int}}>
  */
-final class CreateResponse implements Response
-{
+final class CreateResponse implements Response {
+    public string $object;
+    public array $embeddings;
+    public CreateResponseUsage $usage;
+
     /**
      * @use ArrayAccessible<array{object: string, data: array<int, array{object: string, embedding: array<int, float>, index: int}>, usage: array{prompt_tokens: int, total_tokens: int}}>
      */
@@ -21,10 +24,13 @@ final class CreateResponse implements Response
      * @param  array<int, CreateResponseEmbedding>  $embeddings
      */
     private function __construct(
-        public readonly string $object,
-        public readonly array $embeddings,
-        public readonly CreateResponseUsage $usage,
+        string $object,
+        array $embeddings,
+        CreateResponseUsage $usage
     ) {
+        $this->object = $object;
+        $this->embeddings = $embeddings;
+        $this->usage = $usage;
     }
 
     /**
@@ -32,8 +38,7 @@ final class CreateResponse implements Response
      *
      * @param  array{object: string, data: array<int, array{object: string, embedding: array<int, float>, index: int}>, usage: array{prompt_tokens: int, total_tokens: int}}  $attributes
      */
-    public static function from(array $attributes): self
-    {
+    public static function from(array $attributes): self {
         $embeddings = array_map(fn (array $result): CreateResponseEmbedding => CreateResponseEmbedding::from(
             $result
         ), $attributes['data']);
@@ -48,8 +53,7 @@ final class CreateResponse implements Response
     /**
      * {@inheritDoc}
      */
-    public function toArray(): array
-    {
+    public function toArray(): array {
         return [
             'object' => $this->object,
             'data' => array_map(

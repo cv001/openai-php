@@ -10,8 +10,9 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 /**
  * @implements Response<array{object: string, data: array<int, array{id: string, object: string, created: int, owned_by: string, permission: array<int, array{id: string, object: string, created: int, allow_create_engine: bool, allow_sampling: bool, allow_logprobs: bool, allow_search_indices: bool, allow_view: bool, allow_fine_tuning: bool, organization: string, group: ?string, is_blocking: bool}>, root: string, parent: ?string}>}>
  */
-final class ListResponse implements Response
-{
+final class ListResponse implements Response {
+    public string $object;
+    public array $data;
     /**
      * @use ArrayAccessible<array{object: string, data: array<int, array{id: string, object: string, created: int, owned_by: string, permission: array<int, array{id: string, object: string, created: int, allow_create_engine: bool, allow_sampling: bool, allow_logprobs: bool, allow_search_indices: bool, allow_view: bool, allow_fine_tuning: bool, organization: string, group: ?string, is_blocking: bool}>, root: string, parent: ?string}>}>
      */
@@ -21,9 +22,11 @@ final class ListResponse implements Response
      * @param  array<int, RetrieveResponse>  $data
      */
     private function __construct(
-        public readonly string $object,
-        public readonly array $data,
+        string $object,
+        array $data
     ) {
+        $this->object = $object;
+        $this->data = $data;
     }
 
     /**
@@ -31,8 +34,7 @@ final class ListResponse implements Response
      *
      * @param  array{object: string, data: array<int, array{id: string, object: string, created: int, owned_by: string, permission: array<int, array{id: string, object: string, created: int, allow_create_engine: bool, allow_sampling: bool, allow_logprobs: bool, allow_search_indices: bool, allow_view: bool, allow_fine_tuning: bool, organization: string, group: ?string, is_blocking: bool}>, root: string, parent: ?string}>}  $attributes
      */
-    public static function from(array $attributes): self
-    {
+    public static function from(array $attributes): self {
         $data = array_map(fn (array $result): RetrieveResponse => RetrieveResponse::from(
             $result
         ), $attributes['data']);
@@ -46,8 +48,7 @@ final class ListResponse implements Response
     /**
      * {@inheritDoc}
      */
-    public function toArray(): array
-    {
+    public function toArray(): array {
         return [
             'object' => $this->object,
             'data' => array_map(

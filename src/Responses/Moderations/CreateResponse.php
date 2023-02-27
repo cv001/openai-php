@@ -10,8 +10,10 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 /**
  * @implements Response<array{id: string, model: string, results: array<int, array{categories: array<string, bool>, category_scores: array<string, float>, flagged: bool}>}>
  */
-final class CreateResponse implements Response
-{
+final class CreateResponse implements Response {
+    public string $id;
+    public string $model;
+    public array $results;
     /**
      * @use ArrayAccessible<array{id: string, model: string, results: array<int, array{categories: array<string, bool>, category_scores: array<string, float>, flagged: bool}>}>
      */
@@ -21,10 +23,13 @@ final class CreateResponse implements Response
      * @param  array<int, CreateResponseResult>  $results
      */
     private function __construct(
-        public readonly string $id,
-        public readonly string $model,
-        public readonly array $results,
+        string $id,
+        string $model,
+        array $results
     ) {
+        $this->id = $id;
+        $this->model = $model;
+        $this->results = $results;
     }
 
     /**
@@ -32,8 +37,7 @@ final class CreateResponse implements Response
      *
      * @param  array{id: string, model: string, results: array<int, array{categories: array<string, bool>, category_scores: array<string, float>, flagged: bool}>}  $attributes
      */
-    public static function from(array $attributes): self
-    {
+    public static function from(array $attributes): self {
         $results = array_map(fn (array $result): CreateResponseResult => CreateResponseResult::from(
             $result
         ), $attributes['results']);
@@ -48,8 +52,7 @@ final class CreateResponse implements Response
     /**
      * {@inheritDoc}
      */
-    public function toArray(): array
-    {
+    public function toArray(): array {
         return [
             'id' => $this->id,
             'model' => $this->model,

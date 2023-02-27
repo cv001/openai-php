@@ -10,8 +10,10 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 /**
  * @implements Response<array{object: string, data: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>}>
  */
-final class ListResponse implements Response
-{
+final class ListResponse implements Response {
+    public string $object;
+    public array $data;
+
     /**
      * @use ArrayAccessible<array{object: string, data: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>}>
      */
@@ -21,9 +23,11 @@ final class ListResponse implements Response
      * @param  array<int, RetrieveResponse>  $data
      */
     private function __construct(
-        public readonly string $object,
-        public readonly array $data,
+        string $object,
+        array $data
     ) {
+        $this->object = $object;
+        $this->data = $data;
     }
 
     /**
@@ -31,8 +35,7 @@ final class ListResponse implements Response
      *
      * @param  array{object: string, data: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>}  $attributes
      */
-    public static function from(array $attributes): self
-    {
+    public static function from(array $attributes): self {
         $data = array_map(fn (array $result): RetrieveResponse => RetrieveResponse::from(
             $result
         ), $attributes['data']);
@@ -46,8 +49,7 @@ final class ListResponse implements Response
     /**
      * {@inheritDoc}
      */
-    public function toArray(): array
-    {
+    public function toArray(): array {
         return [
             'object' => $this->object,
             'data' => array_map(

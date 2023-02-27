@@ -10,8 +10,21 @@ use OpenAI\Responses\Concerns\ArrayAccessible;
 /**
  * @implements Response<array{id: string, object: string, model: string, created_at: int, events: array<int, array{object: string, created_at: int, level: string, message: string}>, fine_tuned_model: ?string, hyperparams: array{batch_size: ?int, learning_rate_multiplier: ?float, n_epochs: int, prompt_loss_weight: float}, organization_id: string, result_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>, status: string, validation_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>, training_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>, updated_at: int}>
  */
-final class RetrieveResponse implements Response
-{
+final class RetrieveResponse implements Response {
+    public string $id;
+    public string $object;
+    public string $model;
+    public int $createdAt;
+    public array $events;
+    public string $fineTunedModel;
+    public RetrieveResponseHyperparams $hyperparams;
+    public string $organizationId;
+    public array $resultFiles;
+    public string $status;
+    public array $validationFiles;
+    public array $trainingFiles;
+    public int $updatedAt;
+
     /**
      * @use ArrayAccessible<array{id: string, object: string, model: string, created_at: int, events: array<int, array{object: string, created_at: int, level: string, message: string}>, fine_tuned_model: ?string, hyperparams: array{batch_size: ?int, learning_rate_multiplier: ?float, n_epochs: int, prompt_loss_weight: float}, organization_id: string, result_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>, status: string, validation_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>, training_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>, updated_at: int}>
      */
@@ -24,20 +37,33 @@ final class RetrieveResponse implements Response
      * @param  array<int, RetrieveResponseFile>  $trainingFiles
      */
     private function __construct(
-        public readonly string $id,
-        public readonly string $object,
-        public readonly string $model,
-        public readonly int $createdAt,
-        public readonly array $events,
-        public readonly ?string $fineTunedModel,
-        public readonly RetrieveResponseHyperparams $hyperparams,
-        public readonly string $organizationId,
-        public readonly array $resultFiles,
-        public readonly string $status,
-        public readonly array $validationFiles,
-        public readonly array $trainingFiles,
-        public readonly int $updatedAt,
+        string $id,
+        string $object,
+        string $model,
+        int $createdAt,
+        array $events,
+        string $fineTunedModel,
+        RetrieveResponseHyperparams $hyperparams,
+        string $organizationId,
+        array $resultFiles,
+        string $status,
+        array $validationFiles,
+        array $trainingFiles,
+        int $updatedAt
     ) {
+        $this->id = $id;
+        $this->object = $object;
+        $this->model = $model;
+        $this->createdAt = $createdAt;
+        $this->events = $events;
+        $this->fineTunedModel = $fineTunedModel;
+        $this->hyperparams = $hyperparams;
+        $this->organizationId = $organizationId;
+        $this->resultFiles = $resultFiles;
+        $this->status = $status;
+        $this->validationFiles = $validationFiles;
+        $this->trainingFiles = $trainingFiles;
+        $this->updatedAt = $updatedAt;
     }
 
     /**
@@ -45,8 +71,7 @@ final class RetrieveResponse implements Response
      *
      * @param  array{id: string, object: string, model: string, created_at: int, events?: array<int, array{object: string, created_at: int, level: string, message: string}>, fine_tuned_model: ?string, hyperparams: array{batch_size: ?int, learning_rate_multiplier: ?float, n_epochs: int, prompt_loss_weight: float}, organization_id: string, result_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>, status: string, validation_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>, training_files: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>, updated_at: int}  $attributes
      */
-    public static function from(array $attributes): self
-    {
+    public static function from(array $attributes): self {
         $events = array_map(fn (array $result): RetrieveResponseEvent => RetrieveResponseEvent::from(
             $result
         ), $attributes['events'] ?? []);
@@ -83,8 +108,7 @@ final class RetrieveResponse implements Response
     /**
      * {@inheritDoc}
      */
-    public function toArray(): array
-    {
+    public function toArray(): array {
         return [
             'id' => $this->id,
             'object' => $this->object,

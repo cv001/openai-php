@@ -9,13 +9,11 @@ use OpenAI\ValueObjects\ApiKey;
 use OpenAI\ValueObjects\Transporter\BaseUri;
 use OpenAI\ValueObjects\Transporter\Headers;
 
-final class OpenAI
-{
+final class OpenAI {
     /**
      * Creates a new Open AI Client with the given API token.
      */
-    public static function client(string $apiKey, string $organization = null): Client
-    {
+    public static function client(string $apiKey, string $organization = null): Client {
         $apiKey = ApiKey::from($apiKey);
 
         $baseUri = BaseUri::from('api.openai.com/v1');

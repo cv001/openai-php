@@ -6,31 +6,33 @@ namespace OpenAI\Responses\Moderations;
 
 use OpenAI\Enums\Moderations\Category;
 
-final class CreateResponseResult
-{
+final class CreateResponseResult {
+    public array $categories;
+    public bool $flagged;
+
     /**
      * @param  array<string, CreateResponseCategory>  $categories
      */
     private function __construct(
-        public readonly array $categories,
-        public readonly bool $flagged,
+        array $categories,
+        bool $flagged
     ) {
-        // ..
+        $this->categories = $categories;
+        $this->flagged = $flagged;
     }
 
     /**
      * @param  array{categories: array<string, bool>, category_scores: array<string, float>, flagged: bool}  $attributes
      */
-    public static function from(array $attributes): self
-    {
+    public static function from(array $attributes): self {
         /** @var array<string, CreateResponseCategory> $categories */
         $categories = [];
 
         foreach (Category::cases() as $category) {
-            $categories[$category->value] = CreateResponseCategory::from([
-                'category' => $category->value,
-                'violated' => $attributes['categories'][$category->value],
-                'score' => $attributes['category_scores'][$category->value],
+            $categories[$category] = CreateResponseCategory::from([
+                'category' => $category,
+                'violated' => $attributes['categories'][$category],
+                'score' => $attributes['category_scores'][$category],
             ]);
         }
 
@@ -43,13 +45,12 @@ final class CreateResponseResult
     /**
      * @return array{categories: array<string, bool>, category_scores: array<string, float>, flagged: bool}
      */
-    public function toArray(): array
-    {
+    public function toArray(): array {
         $categories = [];
         $categoryScores = [];
         foreach ($this->categories as $category) {
-            $categories[$category->category->value] = $category->violated;
-            $categoryScores[$category->category->value] = $category->score;
+            $categories[$category->category] = $category->violated;
+            $categoryScores[$category->category] = $category->score;
         }
 
         return [

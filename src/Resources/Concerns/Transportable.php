@@ -6,13 +6,13 @@ namespace OpenAI\Resources\Concerns;
 
 use OpenAI\Contracts\Transporter;
 
-trait Transportable
-{
+trait Transportable {
+    public Transporter $transporter;
+
     /**
      * Creates a Client instance with the given API token.
      */
-    public function __construct(private readonly Transporter $transporter)
-    {
-        // ..
+    public function __construct(Transporter $transporter) {
+        $this->transporter = $transporter;
     }
 }

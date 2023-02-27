@@ -4,29 +4,52 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\Models;
 
-final class RetrieveResponsePermission
-{
+final class RetrieveResponsePermission {
+    public string $id;
+    public string $object;
+    public int $created;
+    public bool $allowCreateEngine;
+    public bool $allowSampling;
+    public bool $allowLogprobs;
+    public bool $allowSearchIndices;
+    public bool $allowView;
+    public bool $allowFineTuning;
+    public string $organization;
+    public string $group;
+    public bool $isBlocking;
+
     private function __construct(
-        public readonly string $id,
-        public readonly string $object,
-        public readonly int $created,
-        public readonly bool $allowCreateEngine,
-        public readonly bool $allowSampling,
-        public readonly bool $allowLogprobs,
-        public readonly bool $allowSearchIndices,
-        public readonly bool $allowView,
-        public readonly bool $allowFineTuning,
-        public readonly string $organization,
-        public readonly ?string $group,
-        public readonly bool $isBlocking,
+        string $id,
+        string $object,
+        int $created,
+        bool $allowCreateEngine,
+        bool $allowSampling,
+        bool $allowLogprobs,
+        bool $allowSearchIndices,
+        bool $allowView,
+        bool $allowFineTuning,
+        string $organization,
+        string $group,
+        bool $isBlocking
     ) {
+        $this->id = $id;
+        $this->object = $object;
+        $this->created = $created;
+        $this->allowCreateEngine = $allowCreateEngine;
+        $this->allowSampling = $allowSampling;
+        $this->allowLogprobs = $allowLogprobs;
+        $this->allowSearchIndices = $allowSearchIndices;
+        $this->allowView = $allowView;
+        $this->allowFineTuning = $allowFineTuning;
+        $this->organization = $organization;
+        $this->group = $group;
+        $this->isBlocking = $isBlocking;
     }
 
     /**
      * @param  array{id: string, object: string, created: int, allow_create_engine: bool, allow_sampling: bool, allow_logprobs: bool, allow_search_indices: bool, allow_view: bool, allow_fine_tuning: bool, organization: string, group: ?string, is_blocking: bool}  $attributes
      */
-    public static function from(array $attributes): self
-    {
+    public static function from(array $attributes): self {
         return new self(
             $attributes['id'],
             $attributes['object'],
@@ -46,8 +69,7 @@ final class RetrieveResponsePermission
     /**
      * @return array{id: string, object: string, created: int, allow_create_engine: bool, allow_sampling: bool, allow_logprobs: bool, allow_search_indices: bool, allow_view: bool, allow_fine_tuning: bool, organization: string, group: ?string, is_blocking: bool}
      */
-    public function toArray(): array
-    {
+    public function toArray(): array {
         return [
             'id' => $this->id,
             'object' => $this->object,

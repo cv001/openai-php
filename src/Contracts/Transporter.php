@@ -12,8 +12,7 @@ use OpenAI\ValueObjects\Transporter\Payload;
 /**
  * @internal
  */
-interface Transporter
-{
+interface Transporter {
     /**
      * Sends a request to a server.
      **
