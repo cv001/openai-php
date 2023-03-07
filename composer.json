@@ -1,7 +1,19 @@
 {
     "name": "pythias/openai-client",
     "description": "OpenAI PHP is a supercharged PHP API client that allows you to interact with the Open AI API, forked from https://github.com/openai-php/client",
-    "keywords": ["php", "openai", "sdk", "codex", "GPT-3", "DALL-E", "api", "client", "natural", "language", "processing"],
+    "keywords": [
+        "php",
+        "openai",
+        "sdk",
+        "codex",
+        "GPT-3",
+        "DALL-E",
+        "api",
+        "client",
+        "natural",
+        "language",
+        "processing"
+    ],
     "license": "MIT",
     "authors": [
         {
@@ -14,7 +26,7 @@
         }
     ],
     "require": {
-        "php": "^7.4|^8.0",
+        "php": "^7.4",
         "guzzlehttp/guzzle": "^7.5.0"
     },
     "require-dev": {
