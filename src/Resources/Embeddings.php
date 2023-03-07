@@ -13,7 +13,7 @@ final class Embeddings {
     /**
      * Creates an embedding vector representing the input text.
      *
-     * @see https://beta.openai.com/docs/api-reference/embeddings/create
+     * @see https://platform.openai.com/docs/api-reference/embeddings/create
      *
      * @param  array<string, mixed>  $parameters
      */

@@ -16,7 +16,7 @@ final class Files {
     /**
      * Returns a list of files that belong to the user's organization.
      *
-     * @see https://beta.openai.com/docs/api-reference/files/list
+     * @see https://platform.openai.com/docs/api-reference/files/list
      */
     public function list(): ListResponse {
         $payload = Payload::list('files');
@@ -30,7 +30,7 @@ final class Files {
     /**
      * Returns information about a specific file.
      *
-     * @see https://beta.openai.com/docs/api-reference/files/retrieve
+     * @see https://platform.openai.com/docs/api-reference/files/retrieve
      */
     public function retrieve(string $file): RetrieveResponse {
         $payload = Payload::retrieve('files', $file);
@@ -44,7 +44,7 @@ final class Files {
     /**
      * Returns the contents of the specified file.
      *
-     * @see https://beta.openai.com/docs/api-reference/files/retrieve-content
+     * @see https://platform.openai.com/docs/api-reference/files/retrieve-content
      */
     public function download(string $file): string {
         $payload = Payload::retrieveContent('files', $file);
@@ -55,7 +55,7 @@ final class Files {
     /**
      * Upload a file that contains document(s) to be used across various endpoints/features.
      *
-     * @see https://beta.openai.com/docs/api-reference/files/upload
+     * @see https://platform.openai.com/docs/api-reference/files/upload
      *
      * @param  array<string, mixed>  $parameters
      */
@@ -71,7 +71,7 @@ final class Files {
     /**
      * Delete a file.
      *
-     * @see https://beta.openai.com/docs/api-reference/files/delete
+     * @see https://platform.openai.com/docs/api-reference/files/delete
      */
     public function delete(string $file): DeleteResponse {
         $payload = Payload::delete('files', $file);

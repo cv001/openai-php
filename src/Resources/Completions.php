@@ -13,7 +13,7 @@ final class Completions {
     /**
      * Creates a completion for the provided prompt and parameters
      *
-     * @see https://beta.openai.com/docs/api-reference/completions/create-completion
+     * @see https://platform.openai.com/docs/api-reference/completions/create-completion
      *
      * @param  array<string, mixed>  $parameters
      */

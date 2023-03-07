@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## v0.3.4 (2023-03-07)
+### Added
+- `Audio` resource to turn audio into text powered by `whisper-1` ([#1](https://github.com/pythias/openai-php/pulls/1))
+- `Chat` resource aka ChatGPT powered by `gpt-3.5-turbo` ([#1](https://github.com/pythias/openai-php/pulls/1))
+
 ## v0.3.1 (2023-02-07)
 ### Fixed
 - Missing `events` on FineTunes `RetrieveResponse` ([#41](https://github.com/openai-php/client/pull/41))
@@ -22,7 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## v0.2.0 (2022-11-07)
 ### Added
-- Add `images()` resource to interact with [DALL-E](https://beta.openai.com/docs/api-reference/images)
+- Add `images()` resource to interact with [DALL-E](https://platform.openai.com/docs/api-reference/images)
 
 ### Fixed
 - Parse completions create response with logprobs correctly
