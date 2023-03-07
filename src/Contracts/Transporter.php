@@ -16,11 +16,11 @@ interface Transporter {
     /**
      * Sends a request to a server.
      **
-     * @return array<array-key, mixed>
+     * @return array<array-key, mixed>|string
      *
      * @throws ErrorException|UnserializableResponse|TransporterException
      */
-    public function requestObject(Payload $payload): array;
+    public function requestObject(Payload $payload);
 
     /**
      * Sends a content request to a server.

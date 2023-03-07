@@ -15,7 +15,7 @@ final class Models {
     /**
      * Lists the currently available models, and provides basic information about each one such as the owner and availability.
      *
-     * @see https://beta.openai.com/docs/api-reference/models/list
+     * @see https://platform.openai.com/docs/api-reference/models/list
      */
     public function list(): ListResponse {
         $payload = Payload::list('models');
@@ -29,7 +29,7 @@ final class Models {
     /**
      * Retrieves a model instance, providing basic information about the model such as the owner and permissioning.
      *
-     * @see https://beta.openai.com/docs/api-reference/models/retrieve
+     * @see https://platform.openai.com/docs/api-reference/models/retrieve
      */
     public function retrieve(string $model): RetrieveResponse {
         $payload = Payload::retrieve('models', $model);
@@ -43,7 +43,7 @@ final class Models {
     /**
      * Delete a fine-tuned model. You must have the Owner role in your organization.
      *
-     * @see https://beta.openai.com/docs/api-reference/fine-tunes/delete-model
+     * @see https://platform.openai.com/docs/api-reference/fine-tunes/delete-model
      */
     public function delete(string $model): DeleteResponse {
         $payload = Payload::delete('models', $model);

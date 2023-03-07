@@ -1,4 +1,11 @@
-**OpenAI PHP** is a supercharged community PHP API client that allows you to interact with the [Open AI API](https://beta.openai.com/docs/api-reference/introduction).
+<p align="center">
+    <a href="https://packagist.org/packages/pythias/openai-client"><img alt="Total Downloads" src="https://img.shields.io/packagist/dt/pythias/openai-client"></a>
+    <a href="https://packagist.org/packages/pythias/openai-client"><img alt="Latest Version" src="https://img.shields.io/packagist/v/pythias/openai-client"></a>
+    <a href="https://packagist.org/packages/pythias/openai-client"><img alt="License" src="https://img.shields.io/github/license/pythias/openai-php"></a>
+</p>
+
+------
+**OpenAI PHP** is a supercharged community PHP API client that allows you to interact with the [Open AI API](https://platform.openai.com/docs/api-reference/introduction).
 
 ## Get Started
 
@@ -13,7 +20,8 @@ composer require pythias/openai-client
 Then, interact with OpenAI's API:
 
 ```php
-$client = OpenAI::client('YOUR_API_KEY');
+$yourApiKey = getenv('YOUR_API_KEY');
+$client = OpenAI::client($yourApiKey);
 
 $result = $client->completions()->create([
     'model' => 'text-davinci-003',
@@ -122,6 +130,103 @@ $response->usage->completionTokens; // 6,
 $response->usage->totalTokens; // 11
 
 $response->toArray(); // ['id' => 'cmpl-uqkvlQyYK7bGYrRHQ0eXlWi7', ...]
+```
+
+### `Chat` Resource
+
+#### `create`
+
+Creates a completion for the chat message.
+
+```php
+$response = $client->chat()->create([
+    'model' => 'gpt-3.5-turbo',
+    'messages' => [
+        ['role' => 'user', 'content' => 'Hello!'],
+    ],
+]);
+$response->id; // 'chatcmpl-6pMyfj1HF4QXnfvjtfzvufZSQq6Eq'
+$response->object; // 'chat.completion'
+$response->created; // 1677701073
+$response->model; // 'gpt-3.5-turbo-0301'
+foreach ($response->choices as $result) {
+    $result->index; // 0
+    $result->message->role; // 'assistant'
+    $result->message->content; // '\n\nHello there! How can I assist you today?'
+    $result->finishReason; // 'stop'
+}
+$response->usage->promptTokens; // 9,
+$response->usage->completionTokens; // 12,
+$response->usage->totalTokens; // 21
+$response->toArray(); // ['id' => 'chatcmpl-6pMyfj1HF4QXnfvjtfzvufZSQq6Eq', ...]
+```
+
+### `Audio` Resource
+
+#### `transcribe`
+
+Transcribes audio into the input language.
+
+```php
+$response = $client->audio()->transcribe([
+    'model' => 'whisper-1',
+    'file' => fopen('audio.mp3', 'r'),
+    'response_format' => 'verbose_json',
+]);
+
+$response->task; // 'transcribe'
+$response->language; // 'english'
+$response->duration; // 2.95
+$response->text; // 'Hello, how are you?'
+
+foreach ($response->segments as $segment) {
+    $segment->index; // 0
+    $segment->seek; // 0
+    $segment->start; // 0.0
+    $segment->end; // 4.0
+    $segment->text; // 'Hello, how are you?'
+    $segment->tokens; // [50364, 2425, 11, 577, 366, 291, 30, 50564]
+    $segment->temperature; // 0.0
+    $segment->avgLogprob; // -0.45045216878255206
+    $segment->compressionRatio; // 0.7037037037037037
+    $segment->noSpeechProb; // 0.1076972484588623
+    $segment->transient; // false
+}
+
+$response->toArray(); // ['task' => 'transcribe', ...]
+```
+
+#### `translate`
+
+Translates audio into English.
+
+```php
+$response = $client->audio()->translate([
+    'model' => 'whisper-1',
+    'file' => fopen('german.mp3', 'r'),
+    'response_format' => 'verbose_json',
+]);
+
+$response->task; // 'translate'
+$response->language; // 'english'
+$response->duration; // 2.95
+$response->text; // 'Hello, how are you?'
+
+foreach ($response->segments as $segment) {
+    $segment->index; // 0
+    $segment->seek; // 0
+    $segment->start; // 0.0
+    $segment->end; // 4.0
+    $segment->text; // 'Hello, how are you?'
+    $segment->tokens; // [50364, 2425, 11, 577, 366, 291, 30, 50564]
+    $segment->temperature; // 0.0
+    $segment->avgLogprob; // -0.45045216878255206
+    $segment->compressionRatio; // 0.7037037037037037
+    $segment->noSpeechProb; // 0.1076972484588623
+    $segment->transient; // false
+}
+
+$response->toArray(); // ['task' => 'translate', ...]
 ```
 
 ### `Edits` Resource

@@ -17,7 +17,7 @@ final class FineTunes {
      *
      * Response includes details of the enqueued job including job status and the name of the fine-tuned models once complete.
      *
-     * @see https://beta.openai.com/docs/api-reference/fine-tunes/create
+     * @see https://platform.openai.com/docs/api-reference/fine-tunes/create
      *
      * @param  array<string, mixed>  $parameters
      */
@@ -33,7 +33,7 @@ final class FineTunes {
     /**
      * List your organization's fine-tuning jobs.
      *
-     * @see https://beta.openai.com/docs/api-reference/fine-tunes/list
+     * @see https://platform.openai.com/docs/api-reference/fine-tunes/list
      */
     public function list(): ListResponse {
         $payload = Payload::list('fine-tunes');
@@ -47,7 +47,7 @@ final class FineTunes {
     /**
      * Gets info about the fine-tune job.
      *
-     * @see https://beta.openai.com/docs/api-reference/fine-tunes/list
+     * @see https://platform.openai.com/docs/api-reference/fine-tunes/list
      */
     public function retrieve(string $fineTuneId): RetrieveResponse {
         $payload = Payload::retrieve('fine-tunes', $fineTuneId);
@@ -61,7 +61,7 @@ final class FineTunes {
     /**
      * Immediately cancel a fine-tune job.
      *
-     * @see https://beta.openai.com/docs/api-reference/fine-tunes/cancel
+     * @see https://platform.openai.com/docs/api-reference/fine-tunes/cancel
      */
     public function cancel(string $fineTuneId): RetrieveResponse {
         $payload = Payload::cancel('fine-tunes', $fineTuneId);
@@ -75,7 +75,7 @@ final class FineTunes {
     /**
      * Get fine-grained status updates for a fine-tune job.
      *
-     * @see https://beta.openai.com/docs/api-reference/fine-tunes/events
+     * @see https://platform.openai.com/docs/api-reference/fine-tunes/events
      */
     public function listEvents(string $fineTuneId): ListEventsResponse {
         $payload = Payload::retrieve('fine-tunes', $fineTuneId, '/events');

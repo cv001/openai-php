@@ -26,6 +26,6 @@ function mockClient(string $method, string $resource, array $params, $response, 
     return new Client($transporter);
 }
 
-function mockContentClient(string $method, string $resource, array $params, string $response) {
+function mockContentClient(string $method, string $resource, array $params, $response) {
     return mockClient($method, $resource, $params, $response, 'requestContent');
 }
