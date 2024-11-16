@@ -1,5 +1,5 @@
 {
-    "name": "pythias/openai-client",
+    "name": "cv001/openai-php",
     "description": "OpenAI PHP is a supercharged PHP API client that allows you to interact with the Open AI API, forked from https://github.com/openai-php/client",
     "keywords": [
         "php",
