@@ -29,6 +29,11 @@ final class BaseUri implements Stringable {
      * {@inheritdoc}
      */
     public function toString(): string {
+        foreach (['http://', 'https://'] as $protocol) {
+            if (str_starts_with($this->baseUri, $protocol)) {
+                return "{$this->baseUri}/";
+            }
+        }
         return "https://{$this->baseUri}/";
     }
 }
