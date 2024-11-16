@@ -13,10 +13,10 @@ final class OpenAI {
     /**
      * Creates a new Open AI Client with the given API token.
      */
-    public static function client(string $apiKey, string $organization = null): Client {
+    public static function client(string $apiKey, string $organization = null, string $baseUriStr = 'api.openai.com/v1'): Client {
         $apiKey = ApiKey::from($apiKey);
 
-        $baseUri = BaseUri::from('api.openai.com/v1');
+        $baseUri = BaseUri::from($baseUriStr);
 
         $headers = Headers::withAuthorization($apiKey);
 
