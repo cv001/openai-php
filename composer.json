@@ -27,7 +27,7 @@
     ],
     "require": {
         "php": "^7.4",
-        "guzzlehttp/guzzle": "^7.5.0"
+        "guzzlehttp/guzzle": "^6.5.8|^7.5.0"
     },
     "require-dev": {
         "mockery/mockery": "^1.5",
