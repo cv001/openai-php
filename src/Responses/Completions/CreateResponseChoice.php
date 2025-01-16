@@ -41,7 +41,7 @@ final class CreateResponseChoice {
         return [
             'text' => $this->text,
             'index' => $this->index,
-            'logprobs' => $this->logprobs !== null ? $this->logprobs->toArray() : null,
+            'logprobs' => $this->logprobs instanceof \OpenAI\Responses\Completions\CreateResponseChoiceLogprobs ? $this->logprobs->toArray() : null,
             'finish_reason' => $this->finishReason,
         ];
     }

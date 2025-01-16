@@ -23,7 +23,7 @@ trait ArrayAccessible {
     /**
      * {@inheritDoc}
      */
-    public function offsetGet($offset) {
+    public function offsetGet($offset): mixed {
         return $this->toArray()[$offset];
     }
 

@@ -32,7 +32,7 @@ interface Response extends ArrayAccess {
      * @param  TOffsetKey  $offset
      * @return TArray[TOffsetKey]
      */
-    public function offsetGet($offset);
+    public function offsetGet($offset): mixed;
 
     /**
      * @template TOffsetKey of key-of<TArray>
