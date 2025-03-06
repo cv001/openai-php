@@ -10,25 +10,31 @@ use OpenAI\ValueObjects\ApiKey;
 /**
  * @internal
  */
-final class Headers {
-    /**
-     * @var array<string, string>
-     */
-    private array $headers;
-
+final class Headers
+{
     /**
      * Creates a new Headers value object.
      *
      * @param  array<string, string>  $headers
      */
-    private function __construct(array $headers) {
-        $this->headers = $headers;
+    private function __construct(private readonly array $headers)
+    {
+        // ..
+    }
+
+    /**
+     * Creates a new Headers value object
+     */
+    public static function create(): self
+    {
+        return new self([]);
     }
 
     /**
      * Creates a new Headers value object with the given API token.
      */
-    public static function withAuthorization(ApiKey $apiKey): self {
+    public static function withAuthorization(ApiKey $apiKey): self
+    {
         return new self([
             'Authorization' => "Bearer {$apiKey->toString()}",
         ]);
@@ -37,23 +43,52 @@ final class Headers {
     /**
      * Creates a new Headers value object, with the given content type, and the existing headers.
      */
-    public function withContentType(string $contentType, string $suffix = ''): self {
-        $this->headers['Content-Type'] = $contentType . $suffix;
-        return $this;
+    public function withContentType(ContentType $contentType, string $suffix = ''): self
+    {
+        return new self([
+            ...$this->headers,
+            'Content-Type' => $contentType->value.$suffix,
+        ]);
     }
 
     /**
      * Creates a new Headers value object, with the given organization, and the existing headers.
      */
-    public function withOrganization(string $organization): self {
-        $this->headers['OpenAI-Organization'] = $organization;
-        return $this;
+    public function withOrganization(string $organization): self
+    {
+        return new self([
+            ...$this->headers,
+            'OpenAI-Organization' => $organization,
+        ]);
+    }
+
+    /**
+     * Creates a new Headers value object, with the given project, and the existing headers.
+     */
+    public function withProject(string $project): self
+    {
+        return new self([
+            ...$this->headers,
+            'OpenAI-Project' => $project,
+        ]);
+    }
+
+    /**
+     * Creates a new Headers value object, with the newly added header, and the existing headers.
+     */
+    public function withCustomHeader(string $name, string $value): self
+    {
+        return new self([
+            ...$this->headers,
+            $name => $value,
+        ]);
     }
 
     /**
      * @return array<string, string> $headers
      */
-    public function toArray(): array {
+    public function toArray(): array
+    {
         return $this->headers;
     }
 }

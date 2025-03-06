@@ -4,31 +4,22 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\Embeddings;
 
-final class CreateResponseEmbedding {
-    public string $object;
-    public int $index;
-    /**
-     * @var array<int, float>
-     */
-    public array $embedding;
-
+final class CreateResponseEmbedding
+{
     /**
      * @param  array<int, float>  $embedding
      */
     private function __construct(
-        string $object,
-        int $index,
-        array $embedding
-    ) {
-        $this->object = $object;
-        $this->index = $index;
-        $this->embedding = $embedding;
-    }
+        public readonly string $object,
+        public readonly int $index,
+        public readonly array $embedding,
+    ) {}
 
     /**
      * @param  array{object: string, index: int, embedding: array<int, float>}  $attributes
      */
-    public static function from(array $attributes): self {
+    public static function from(array $attributes): self
+    {
         return new self(
             $attributes['object'],
             $attributes['index'],
@@ -39,7 +30,8 @@ final class CreateResponseEmbedding {
     /**
      * @return array{object: string, index: int, embedding: array<int, float>}
      */
-    public function toArray(): array {
+    public function toArray(): array
+    {
         return [
             'object' => $this->object,
             'index' => $this->index,

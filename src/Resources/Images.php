@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
+use OpenAI\Contracts\Resources\ImagesContract;
 use OpenAI\Responses\Images\CreateResponse;
 use OpenAI\Responses\Images\EditResponse;
 use OpenAI\Responses\Images\VariationResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
+use OpenAI\ValueObjects\Transporter\Response;
 
-final class Images {
+final class Images implements ImagesContract
+{
     use Concerns\Transportable;
 
     /**
@@ -19,13 +22,14 @@ final class Images {
      *
      * @param  array<string, mixed>  $parameters
      */
-    public function create(array $parameters): CreateResponse {
+    public function create(array $parameters): CreateResponse
+    {
         $payload = Payload::create('images/generations', $parameters);
 
-        /** @var array{created: int, data: array<int, array{url?: string, b64_json?: string}>} $result */
-        $result = $this->transporter->requestObject($payload);
+        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string, revised_prompt?: string}>}> $response */
+        $response = $this->transporter->requestObject($payload);
 
-        return CreateResponse::from($result);
+        return CreateResponse::from($response->data(), $response->meta());
     }
 
     /**
@@ -35,13 +39,14 @@ final class Images {
      *
      * @param  array<string, mixed>  $parameters
      */
-    public function edit(array $parameters): EditResponse {
+    public function edit(array $parameters): EditResponse
+    {
         $payload = Payload::upload('images/edits', $parameters);
 
-        /** @var array{created: int, data: array<int, array{url?: string, b64_json?: string}>} $result */
-        $result = $this->transporter->requestObject($payload);
+        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}> $response */
+        $response = $this->transporter->requestObject($payload);
 
-        return EditResponse::from($result);
+        return EditResponse::from($response->data(), $response->meta());
     }
 
     /**
@@ -51,12 +56,13 @@ final class Images {
      *
      * @param  array<string, mixed>  $parameters
      */
-    public function variation(array $parameters): VariationResponse {
+    public function variation(array $parameters): VariationResponse
+    {
         $payload = Payload::upload('images/variations', $parameters);
 
-        /** @var array{created: int, data: array<int, array{url?: string, b64_json?: string}>} $result */
-        $result = $this->transporter->requestObject($payload);
+        /** @var Response<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}> $response */
+        $response = $this->transporter->requestObject($payload);
 
-        return VariationResponse::from($result);
+        return VariationResponse::from($response->data(), $response->meta());
     }
 }

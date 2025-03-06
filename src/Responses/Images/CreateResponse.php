@@ -4,41 +4,42 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\Images;
 
-use OpenAI\Contracts\Response;
+use OpenAI\Contracts\ResponseContract;
+use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\Concerns\HasMetaInformation;
+use OpenAI\Responses\Meta\MetaInformation;
+use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements Response<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}>
+ * @implements ResponseContract<array{created: int, data: array<int, array{url?: string, b64_json?: string, revised_prompt?: string}>}>
  */
-final class CreateResponse implements Response {
-    public int $created;
+final class CreateResponse implements ResponseContract, ResponseHasMetaInformationContract
+{
     /**
-     * @var array<int, CreateResponseData>
-     */
-    public array $data;
-
-    /**
-     * @use ArrayAccessible<array{created: int, data: array<int, array{url?: string, b64_json?: string}>}>
+     * @use ArrayAccessible<array{created: int, data: array<int, array{url?: string, b64_json?: string, revised_prompt?: string}>}>
      */
     use ArrayAccessible;
+
+    use Fakeable;
+    use HasMetaInformation;
 
     /**
      * @param  array<int, CreateResponseData>  $data
      */
     private function __construct(
-        int $created,
-        array $data
-    ) {
-        $this->created = $created;
-        $this->data = $data;
-    }
+        public readonly int $created,
+        public readonly array $data,
+        private readonly MetaInformation $meta,
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{created: int, data: array<int, array{url?: string, b64_json?: string}>}  $attributes
+     * @param  array{created: int, data: array<int, array{url?: string, b64_json?: string, revised_prompt?: string}>}  $attributes
      */
-    public static function from(array $attributes): self {
+    public static function from(array $attributes, MetaInformation $meta): self
+    {
         $results = array_map(fn (array $result): CreateResponseData => CreateResponseData::from(
             $result
         ), $attributes['data']);
@@ -46,13 +47,15 @@ final class CreateResponse implements Response {
         return new self(
             $attributes['created'],
             $results,
+            $meta,
         );
     }
 
     /**
      * {@inheritDoc}
      */
-    public function toArray(): array {
+    public function toArray(): array
+    {
         return [
             'created' => $this->created,
             'data' => array_map(

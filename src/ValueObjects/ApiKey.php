@@ -4,29 +4,31 @@ declare(strict_types=1);
 
 namespace OpenAI\ValueObjects;
 
-use OpenAI\Contracts\Stringable;
+use OpenAI\Contracts\StringableContract;
 
 /**
  * @internal
  */
-final class ApiKey implements Stringable {
-    public string $apiKey;
-
+final class ApiKey implements StringableContract
+{
     /**
      * Creates a new API token value object.
      */
-    private function __construct(string $apiKey) {
-        $this->apiKey = $apiKey;
+    private function __construct(public readonly string $apiKey)
+    {
+        // ..
     }
 
-    public static function from(string $apiKey): self {
+    public static function from(string $apiKey): self
+    {
         return new self($apiKey);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function toString(): string {
+    public function toString(): string
+    {
         return $this->apiKey;
     }
 }

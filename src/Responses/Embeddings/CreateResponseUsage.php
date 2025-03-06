@@ -4,22 +4,18 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\Embeddings;
 
-final class CreateResponseUsage {
-    public int $promptTokens;
-    public int $totalTokens;
-
+final class CreateResponseUsage
+{
     private function __construct(
-        int $promptTokens,
-        int $totalTokens
-    ) {
-        $this->promptTokens = $promptTokens;
-        $this->totalTokens = $totalTokens;
-    }
+        public readonly int $promptTokens,
+        public readonly int $totalTokens,
+    ) {}
 
     /**
      * @param  array{prompt_tokens: int, total_tokens: int}  $attributes
      */
-    public static function from(array $attributes): self {
+    public static function from(array $attributes): self
+    {
         return new self(
             $attributes['prompt_tokens'],
             $attributes['total_tokens'],
@@ -29,7 +25,8 @@ final class CreateResponseUsage {
     /**
      * @return array{prompt_tokens: int, total_tokens: int}
      */
-    public function toArray(): array {
+    public function toArray(): array
+    {
         return [
             'prompt_tokens' => $this->promptTokens,
             'total_tokens' => $this->totalTokens,

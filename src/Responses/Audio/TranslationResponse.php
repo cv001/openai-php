@@ -4,52 +4,45 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\Audio;
 
-use OpenAI\Contracts\Response;
+use OpenAI\Contracts\ResponseContract;
+use OpenAI\Contracts\ResponseHasMetaInformationContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
+use OpenAI\Responses\Concerns\HasMetaInformation;
+use OpenAI\Responses\Meta\MetaInformation;
+use OpenAI\Testing\Responses\Concerns\Fakeable;
 
 /**
- * @implements Response<array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient: bool}>, text: string}>
+ * @implements ResponseContract<array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient?: bool}>, text: string}>
  */
-final class TranslationResponse implements Response {
-
-    public ?string $task;
-    public ?string $language;
-    public ?float $duration;
-
+final class TranslationResponse implements ResponseContract, ResponseHasMetaInformationContract
+{
     /**
-     * @var array<int, TranslationResponseSegment>
-     */
-    public array $segments;
-    public string $text;
-
-    /**
-     * @use ArrayAccessible<array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient: bool}>, text: string}>
+     * @use ArrayAccessible<array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient?: bool}>, text: string}>
      */
     use ArrayAccessible;
+
+    use Fakeable;
+    use HasMetaInformation;
 
     /**
      * @param  array<int, TranslationResponseSegment>  $segments
      */
     private function __construct(
-        ?string $task,
-        ?string $language,
-        ?float $duration,
-        array $segments,
-        string $text
-    ) {
-        $this->task = $task;
-        $this->language = $language;
-        $this->duration = $duration;
-        $this->segments = $segments;
-        $this->text = $text;
-    }
+        public readonly ?string $task,
+        public readonly ?string $language,
+        public readonly ?float $duration,
+        public readonly array $segments,
+        public readonly string $text,
+        private readonly MetaInformation $meta,
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient: bool}>, text: string}|string $attributes
+     * @param  array{task: ?string, language: ?string, duration: ?float, segments: array<int, array{id: int, seek: int, start: float, end: float, text: string, tokens: array<int, int>, temperature: float, avg_logprob: float, compression_ratio: float, no_speech_prob: float, transient?: bool}>, text: string}  $attributes
      */
-    public static function from($attributes): self {
+    public static function from(array|string $attributes, MetaInformation $meta): self
+    {
         if (is_string($attributes)) {
             $attributes = ['text' => $attributes];
         }
@@ -64,13 +57,15 @@ final class TranslationResponse implements Response {
             $attributes['duration'] ?? null,
             $segments,
             $attributes['text'],
+            $meta,
         );
     }
 
     /**
      * {@inheritDoc}
      */
-    public function toArray(): array {
+    public function toArray(): array
+    {
         return [
             'task' => $this->task,
             'language' => $this->language,

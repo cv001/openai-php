@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace OpenAI\Resources;
 
+use OpenAI\Contracts\Resources\FilesContract;
 use OpenAI\Responses\Files\CreateResponse;
 use OpenAI\Responses\Files\DeleteResponse;
 use OpenAI\Responses\Files\ListResponse;
 use OpenAI\Responses\Files\RetrieveResponse;
 use OpenAI\ValueObjects\Transporter\Payload;
+use OpenAI\ValueObjects\Transporter\Response;
 
-final class Files {
+final class Files implements FilesContract
+{
     use Concerns\Transportable;
 
     /**
@@ -18,13 +21,14 @@ final class Files {
      *
      * @see https://platform.openai.com/docs/api-reference/files/list
      */
-    public function list(): ListResponse {
+    public function list(): ListResponse
+    {
         $payload = Payload::list('files');
 
-        /** @var array{object: string, data: array<int, array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>} $result */
-        $result = $this->transporter->requestObject($payload);
+        /** @var Response<array{object: string, data: array<int, array{id: string, object: string, created_at: int, bytes: ?int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}>}> $response */
+        $response = $this->transporter->requestObject($payload);
 
-        return ListResponse::from($result);
+        return ListResponse::from($response->data(), $response->meta());
     }
 
     /**
@@ -32,13 +36,14 @@ final class Files {
      *
      * @see https://platform.openai.com/docs/api-reference/files/retrieve
      */
-    public function retrieve(string $file): RetrieveResponse {
+    public function retrieve(string $file): RetrieveResponse
+    {
         $payload = Payload::retrieve('files', $file);
 
-        /** @var array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null} $result */
-        $result = $this->transporter->requestObject($payload);
+        /** @var Response<array{id: string, object: string, created_at: int, bytes: ?int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}> $response */
+        $response = $this->transporter->requestObject($payload);
 
-        return RetrieveResponse::from($result);
+        return RetrieveResponse::from($response->data(), $response->meta());
     }
 
     /**
@@ -46,7 +51,8 @@ final class Files {
      *
      * @see https://platform.openai.com/docs/api-reference/files/retrieve-content
      */
-    public function download(string $file): string {
+    public function download(string $file): string
+    {
         $payload = Payload::retrieveContent('files', $file);
 
         return $this->transporter->requestContent($payload);
@@ -59,13 +65,14 @@ final class Files {
      *
      * @param  array<string, mixed>  $parameters
      */
-    public function upload(array $parameters): CreateResponse {
+    public function upload(array $parameters): CreateResponse
+    {
         $payload = Payload::upload('files', $parameters);
 
-        /** @var array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null} $result */
-        $result = $this->transporter->requestObject($payload);
+        /** @var Response<array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}> $response */
+        $response = $this->transporter->requestObject($payload);
 
-        return CreateResponse::from($result);
+        return CreateResponse::from($response->data(), $response->meta());
     }
 
     /**
@@ -73,12 +80,13 @@ final class Files {
      *
      * @see https://platform.openai.com/docs/api-reference/files/delete
      */
-    public function delete(string $file): DeleteResponse {
+    public function delete(string $file): DeleteResponse
+    {
         $payload = Payload::delete('files', $file);
 
-        /** @var array{id: string, object: string, deleted: bool} $result */
-        $result = $this->transporter->requestObject($payload);
+        /** @var Response<array{id: string, object: string, deleted: bool}> $response */
+        $response = $this->transporter->requestObject($payload);
 
-        return DeleteResponse::from($result);
+        return DeleteResponse::from($response->data(), $response->meta());
     }
 }

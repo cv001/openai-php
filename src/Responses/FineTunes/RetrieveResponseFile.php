@@ -4,59 +4,40 @@ declare(strict_types=1);
 
 namespace OpenAI\Responses\FineTunes;
 
-use OpenAI\Contracts\Response;
+use OpenAI\Contracts\ResponseContract;
 use OpenAI\Responses\Concerns\ArrayAccessible;
 
 /**
- * @implements Response<array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>
+ * @implements ResponseContract<array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}>
  */
-final class RetrieveResponseFile implements Response {
-    public string $id;
-    public string $object;
-    public int $bytes;
-    public int $createdAt;
-    public string $filename;
-    public string $purpose;
-    public string $status;
+final class RetrieveResponseFile implements ResponseContract
+{
     /**
-     * @var array<array-key, mixed>|null
-     */
-    public ?array $statusDetails;
-
-    /**
-     * @use ArrayAccessible<array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}>
+     * @use ArrayAccessible<array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}>
      */
     use ArrayAccessible;
 
     /**
-     * @param  array<array-key, mixed>|null $statusDetails
+     * @param  array<array-key, mixed>|null  $statusDetails
      */
     private function __construct(
-        string $id,
-        string $object,
-        int $bytes,
-        int $createdAt,
-        string $filename,
-        string $purpose,
-        string $status,
-        ?array $statusDetails
-    ) {
-        $this->id = $id;
-        $this->object = $object;
-        $this->bytes = $bytes;
-        $this->createdAt = $createdAt;
-        $this->filename = $filename;
-        $this->purpose = $purpose;
-        $this->status = $status;
-        $this->statusDetails = $statusDetails;
-    }
+        public readonly string $id,
+        public readonly string $object,
+        public readonly int $bytes,
+        public readonly int $createdAt,
+        public readonly string $filename,
+        public readonly string $purpose,
+        public readonly string $status,
+        public readonly array|string|null $statusDetails,
+    ) {}
 
     /**
      * Acts as static factory, and returns a new Response instance.
      *
-     * @param  array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|null}  $attributes
+     * @param  array{id: string, object: string, created_at: int, bytes: int, filename: string, purpose: string, status: string, status_details: array<array-key, mixed>|string|null}  $attributes
      */
-    public static function from(array $attributes): self {
+    public static function from(array $attributes): self
+    {
         return new self(
             $attributes['id'],
             $attributes['object'],
@@ -72,7 +53,8 @@ final class RetrieveResponseFile implements Response {
     /**
      * {@inheritDoc}
      */
-    public function toArray(): array {
+    public function toArray(): array
+    {
         return [
             'id' => $this->id,
             'object' => $this->object,
